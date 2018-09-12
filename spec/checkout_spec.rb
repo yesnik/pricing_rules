@@ -1,7 +1,6 @@
 require 'spec_helper'
 require './lib/checkout'
 require './lib/product'
-require './lib/pricing_rule'
 require './lib/store'
 
 describe Checkout do
@@ -14,6 +13,7 @@ describe Checkout do
     Store.add_product(tshirt)
     Store.add_product(mug)
   end
+  
 
   let(:pricing_rules) { [] }
 
