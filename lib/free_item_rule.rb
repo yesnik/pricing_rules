@@ -7,14 +7,12 @@ class FreeItemRule
   end
 
   def price(items)
-    count = selected_items(items).size
+    count = rule_items(items).size
     free_items_count = count / free_item_num
     (count - free_items_count) * product.price
   end
 
-  protected
-
-  def selected_items(items)
-    items.select { |item| item.code = product.code }
+  def rule_items(items)
+    Array(items).select { |item| item.code.eql? product.code }
   end
 end
