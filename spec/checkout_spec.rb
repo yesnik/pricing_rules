@@ -14,12 +14,10 @@ describe Checkout do
     Store.add_product(mug)
   end
   
-
-  let(:pricing_rules) { [] }
-
-  subject { described_class.new(pricing_rules) }
-
   describe '#scan' do
+    let(:pricing_rules) { [] }
+    subject { described_class.new(pricing_rules) }
+
     context 'when we scan one product' do
       before { subject.scan('VOUCHER') }
 
@@ -49,15 +47,18 @@ describe Checkout do
     end
   end
 
-  describe '#total' do
+  describe '#total_price' do
     context 'when no pricing rules' do
+      let(:pricing_rules) { [] }
+      subject { described_class.new(pricing_rules) }
+
       context 'when only one product' do
         before do
           allow(subject).to receive(:items).and_return([voucher])
         end
 
         it 'returns price of product' do
-          expect(subject.total).to eq voucher.price
+          expect(subject.total_price).to eq voucher.price
         end
       end
 
@@ -67,7 +68,22 @@ describe Checkout do
         end
 
         it 'returns sum of this products prices' do
-          expect(subject.total).to eq 32.5
+          expect(subject.total_price).to eq 32.5
+        end
+      end
+    end
+
+    context 'when FreeItemRule provided' do
+      let(:pricing_rules) { [FreeItemRule.new(voucher, 2)] }
+      subject { described_class.new(pricing_rules) }
+
+      context 'when we have items for single pricing rule' do
+        before do
+          allow(subject).to receive(:items).and_return([voucher, tshirt, voucher])
+        end
+
+        it 'returns price with discount applied' do
+          expect(subject.total_price).to eq 25.0
         end
       end
     end
