@@ -47,6 +47,25 @@ describe Checkout do
     end
   end
 
+  describe '#total' do
+    let(:pricing_rules) { [] }
+    subject { described_class.new(pricing_rules) }
+
+    test_cases = [
+      {in: 10.0, out: '10.00€'},
+      {in: 0.55, out: '0.55€'},
+      {in: 100, out: '100.00€'}
+    ]
+
+    test_cases.each do |test|
+      it "formats price to #{test[:out]}" do
+        allow(subject).to receive(:total_price).and_return(test[:in])
+
+        expect(subject.total).to eq test[:out]
+      end
+    end
+  end
+
   describe '#total_price' do
     context 'when no pricing rules' do
       let(:pricing_rules) { [] }
@@ -58,7 +77,7 @@ describe Checkout do
         end
 
         it 'returns price of product' do
-          expect(subject.total_price).to eq voucher.price
+          expect(subject.send :total_price).to eq voucher.price
         end
       end
 
@@ -68,7 +87,7 @@ describe Checkout do
         end
 
         it 'returns sum of this products prices' do
-          expect(subject.total_price).to eq 32.5
+          expect(subject.send :total_price).to eq 32.5
         end
       end
     end
@@ -83,7 +102,7 @@ describe Checkout do
         end
 
         it 'returns price with discount applied' do
-          expect(subject.total_price).to eq 25.0
+          expect(subject.send :total_price).to eq 25.0
         end
       end
     end
@@ -99,7 +118,7 @@ describe Checkout do
         end
 
         it 'returns price with discount applied' do
-          expect(subject.total_price).to eq 81.0
+          expect(subject.send :total_price).to eq 81.0
         end
       end
     end
@@ -118,7 +137,7 @@ describe Checkout do
         end
 
         it 'returns price with discount applied' do
-          expect(subject.total_price).to eq 74.5
+          expect(subject.send :total_price).to eq 74.5
         end
       end
 
@@ -128,7 +147,7 @@ describe Checkout do
         end
 
         it 'returns price with discount applied' do
-          expect(subject.total_price).to eq 32.5
+          expect(subject.send :total_price).to eq 32.5
         end
       end
     end

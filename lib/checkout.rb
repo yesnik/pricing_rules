@@ -10,6 +10,12 @@ class Checkout
     @items << Store.product_for_code(code)
   end
 
+  def total
+    sprintf("%.2f€", total_price)
+  end
+
+  protected
+
   def total_price
     items_to_process = items.dup
     sum = 0
