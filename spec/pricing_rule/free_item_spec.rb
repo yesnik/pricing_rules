@@ -1,8 +1,8 @@
 require 'spec_helper'
-require './lib/free_item_rule'
+require './lib/pricing_rule/free_item'
 require './lib/product'
 
-describe FreeItemRule do
+describe PricingRule::FreeItem do
   let(:voucher) { Product.new('Cabify Voucher', 'VOUCHER', 5.0) }
   let(:tshirt) { Product.new('Cabify T-Shirt', 'TSHIRT', 20.0) }
   let(:mug) { Product.new('Cafify Coffee Mug', 'MUG', 7.5) }
@@ -16,7 +16,7 @@ describe FreeItemRule do
     ]
 
     test_cases.each do |test|
-      subject { FreeItemRule.new(voucher, 2) }
+      subject { described_class.new(voucher, 2) }
 
       context "when target amount is #{test[:in]}" do
         it do
@@ -28,7 +28,7 @@ describe FreeItemRule do
   end
 
   describe '#rule_items' do
-    subject { FreeItemRule.new(voucher, 2) }
+    subject { described_class.new(voucher, 2) }
 
     context 'when items is nil' do
       it 'returns empty array' do

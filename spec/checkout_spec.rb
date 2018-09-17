@@ -93,7 +93,7 @@ describe Checkout do
     end
 
     context 'when FreeItemRule provided' do
-      let(:pricing_rules) { [FreeItemRule.new(voucher, 2)] }
+      let(:pricing_rules) { [PricingRule::FreeItem.new(voucher, 2)] }
       subject { described_class.new(pricing_rules) }
 
       context 'when we have items for single pricing rule' do
@@ -108,7 +108,7 @@ describe Checkout do
     end
 
     context 'when CheaperItemRule provided' do
-      let(:pricing_rules) { [CheaperItemRule.new(tshirt, 3, 19.0)] }
+      let(:pricing_rules) { [PricingRule::CheaperItem.new(tshirt, 3, 19.0)] }
       subject { described_class.new(pricing_rules) }
 
       context 'when we have items for single pricing rule' do
@@ -125,7 +125,7 @@ describe Checkout do
 
     context 'when FreeItemRule and CheaperItemRule applied' do
       let(:pricing_rules) do
-        [CheaperItemRule.new(tshirt, 3, 19.0), FreeItemRule.new(voucher, 2)]
+        [PricingRule::CheaperItem.new(tshirt, 3, 19.0), PricingRule::FreeItem.new(voucher, 2)]
       end
 
       subject { described_class.new(pricing_rules) }

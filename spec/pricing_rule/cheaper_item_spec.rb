@@ -1,8 +1,8 @@
 require 'spec_helper'
-require './lib/cheaper_item_rule'
+require './lib/pricing_rule/cheaper_item'
 require './lib/product'
 
-describe CheaperItemRule do
+describe PricingRule::CheaperItem do
   let(:voucher) { Product.new('Cabify Voucher', 'VOUCHER', 5.0) }
   let(:tshirt) { Product.new('Cabify T-Shirt', 'TSHIRT', 20.0) }
   let(:mug) { Product.new('Cafify Coffee Mug', 'MUG', 7.5) }
